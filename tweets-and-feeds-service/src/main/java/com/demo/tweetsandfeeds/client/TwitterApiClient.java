@@ -63,7 +63,7 @@ public class TwitterApiClient  implements ITwitterApiV2{
         } catch (JsonMappingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return new Tweet();
+            return null;
         } catch (JsonProcessingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
