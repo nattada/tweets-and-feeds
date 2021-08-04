@@ -1,17 +1,17 @@
 package com.demo.tweetsandfeeds.client;
 
-import com.demo.tweetsandfeeds.model.request.Tweet;
+import com.demo.tweetsandfeeds.model.request.AdditionalParameters;
+import com.demo.tweetsandfeeds.model.response.Tweet;
 
 public interface ITwitterApiV2 {
 
 
-  Tweet searchTweets(String query);
-
-  /**
-   * Search tweets from last 7 days calling https://api.twitter.com/2/tweets/search
-   *
-   */
-  Tweet searchTweets(String query, AdditionalParameters additionalParameters);
-
+ /**
+  * calling https://api.twitter.com/2/tweets/search
+  * @param query
+  * @param additionalParameters
+  * @return
+  */
+  Tweet searchTweets(String query,AdditionalParameters additionalParameters);
   
 }

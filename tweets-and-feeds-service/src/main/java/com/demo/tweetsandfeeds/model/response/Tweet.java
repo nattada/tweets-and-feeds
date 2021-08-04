@@ -1,0 +1,5 @@
+package com.demo.tweetsandfeeds.model.response;
+
+public class Tweet {
+    
+}

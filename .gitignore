@@ -6,3 +6,6 @@ tweets-and-feeds-service/.mvn/wrapper/maven-wrapper.jar
 ### VS Code ###
 .vscode/
 .DS_Store
+tweets-and-feeds-service/.settings/*
+tweets-and-feeds-service/.project
+tweets-and-feeds-service/.classpath
