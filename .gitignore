@@ -1,0 +1,8 @@
+tweets-and-feeds-service/target/
+tweets-and-feeds-service/.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### VS Code ###
+.vscode/
+.DS_Store
