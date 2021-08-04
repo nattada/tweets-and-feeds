@@ -17,12 +17,15 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+import com.demo.tweetsandfeeds.model.request.AdditionalParameters;
+import com.demo.tweetsandfeeds.model.response.Tweet;
+
 /*
 Client that will interact with Twitter Apis
 */
 
 @Component
-public class TwitterApiClient {
+public class TwitterApiClient  implements ITwitterApiV2{
 
     //testing API
     public String getTweets(String ids,String bearerToken) throws IOException, URISyntaxException {
@@ -51,5 +54,11 @@ public class TwitterApiClient {
         }
         return tweetResponse;
       }
+
+    @Override
+    public Tweet searchTweets(String query, AdditionalParameters additionalParameters) {
+        // TODO Auto-generated method stub
+        return null;
+    }
     
 }
