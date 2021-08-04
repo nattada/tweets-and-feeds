@@ -1,4 +1,4 @@
-package com.demo.tweetsandfeeds.model.response;
+package com.demo.tweetsandfeeds.client.model.response;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.demo.tweetsandfeeds.model.response;
+package com.demo.tweetsandfeeds.client.model.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

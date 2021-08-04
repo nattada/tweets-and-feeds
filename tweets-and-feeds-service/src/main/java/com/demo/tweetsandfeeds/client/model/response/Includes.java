@@ -1,11 +1,12 @@
-package com.demo.tweetsandfeeds.model.response;
+package com.demo.tweetsandfeeds.client.model.response;
 
 import java.util.List;
 
 public class Includes {
+    
     private List<UserData>   users;
     private List<TweetData> tweets;
-    
+
     public List<UserData> getUsers() {
         return users;
     }
