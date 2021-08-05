@@ -2,6 +2,8 @@ package com.demo.tweetsandfeeds.dto;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import org.springframework.data.annotation.Id;
 
 public class Feed {
@@ -10,6 +12,7 @@ public class Feed {
     public String id;
     public String content;
     public String posterName;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     public LocalDateTime postedTime;
 
     
