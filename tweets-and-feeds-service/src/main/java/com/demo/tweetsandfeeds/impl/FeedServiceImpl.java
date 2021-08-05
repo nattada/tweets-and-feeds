@@ -34,7 +34,7 @@ public class FeedServiceImpl {
         return new ResponseEntity<Feed>(newFeed, null, HttpStatus.SC_OK);
     }
 
-    public ResponseEntity<Feed> deleteById(String id){ß
+    public ResponseEntity<Feed> deleteById(String id){
         feedRepository.deleteById(id);
         return new ResponseEntity<Feed>(null, null, HttpStatus.SC_OK);
     } 

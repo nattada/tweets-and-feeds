@@ -31,18 +31,17 @@ public class FeedsController {
     }
 
     @GetMapping
-    public List<Feed> findAll(){
+    public ResponseEntity<List<Feed>> findAll(){
         return feedService.findAll();
     }
 
     @PutMapping("/{id}")
-    public Feed update(@RequestBody Feed Feed){
+    public ResponseEntity<Feed> update(@RequestBody Feed Feed){
         return feedService.save(Feed);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable String id){
-        feedService.deleteById(id);
+    public ResponseEntity<Feed> deleteById(@PathVariable String id){
+        return feedService.deleteById(id);
     }
-
 }
