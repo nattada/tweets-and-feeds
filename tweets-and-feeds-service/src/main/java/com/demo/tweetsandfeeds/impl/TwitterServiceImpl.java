@@ -33,6 +33,8 @@ public class TwitterServiceImpl implements ISocialMediaService<TweetDetail> {
         tweetReponse.getData().forEach(tweet -> {
             TweetDetail detail = new TweetDetail();
             detail.setContent(tweet.getText());
+            detail.setId(tweet.getId());
+            detail.setPostTime(tweet.getCreatedAt());
             detail.setImage(getUserImageFromTweetAuthor(tweetReponse.getIncludes(), tweet.getAuthorId()));
             detail.setDisplayName(getUserNameFromTweetAuthor(tweetReponse.getIncludes(), tweet.getAuthorId()));
             tweetList.add(detail);

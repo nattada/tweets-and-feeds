@@ -1,0 +1,29 @@
+version: '3.1'
+services:
+  mongo-database:
+    image: mongo:4.2.2
+    environment:
+      MONGO_INITDB_DATABASE: feed
+    ports:
+      - 27017:27017
+  backend:
+    build: ./tweets-and-feeds-service
+    expose: 
+      - 8080
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_DATA_MONGODB_HOST=mongo-database
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_DATABASE=feed
+  ui:
+    build: ./tweets-and-feeds-ui
+    expose: 
+      - 3000
+    ports:
+      - 3000:3000
+    links:
+      - backend
+    volumes:
+      - ./tweets-and-feeds-ui/src:/app/src
+      - ./tweets-and-feeds-ui/public:/app/public
