@@ -7,8 +7,7 @@ function TweeterContent() {
   
     useEffect(() => {
       setIsLoading(true);
-      fetch(
-        '/twitter/seachTweets?text=something',
+      fetch('/twitter/seachTweets?text=something',
         {
             method: 'GET',
             headers: {
@@ -43,10 +42,12 @@ function TweeterContent() {
     }
   
   return (
-    <section>
+    <div className={classes.card}>
       <TweetList allTweets={loadedTweets} />
-    </section>
+    </div>
   );
 }
 
 export default TweeterContent;
+
+

@@ -1,6 +1,8 @@
+import Card from '../ui/Card';
+
 function TweetItem(props) {
   return (
-    <div>
+    <Card>
       <div>
         <img src={props.image} alt={props.displayName} />
       </div>
@@ -8,7 +10,7 @@ function TweetItem(props) {
       </div>
       <div>{props.content}
       </div>
-    </div>
+    </Card>
   );
 }
 export default TweetItem;

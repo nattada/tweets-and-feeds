@@ -1,10 +1,16 @@
 import TweeterContent from "./component/media/TwitterContent";
-import FeedList from "./component/notifications/FeedList"
+import FeedContent from "./component/media/FeedContent";
+import classes from "./App.module.css";
 
 function App() {
   return (
     <div>
-      <TweeterContent/>
+      <div className={classes.twitter}>
+        <TweeterContent />
+      </div>
+      <div className={classes.feed}>
+        <FeedContent />
+      </div>
     </div>
   );
 }
