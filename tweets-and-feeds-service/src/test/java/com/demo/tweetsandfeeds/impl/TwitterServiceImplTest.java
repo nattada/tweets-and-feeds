@@ -4,18 +4,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.demo.tweetsandfeeds.client.TwitterApiClient;
+import com.demo.tweetsandfeeds.client.exception.DataProcessingException;
 import com.demo.tweetsandfeeds.client.model.response.Includes;
 import com.demo.tweetsandfeeds.client.model.response.Response;
 import com.demo.tweetsandfeeds.client.model.response.TweetData;
 import com.demo.tweetsandfeeds.client.model.response.UserData;
 import com.demo.tweetsandfeeds.dto.TweetDetail;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -37,14 +36,14 @@ public class TwitterServiceImplTest {
 
 
     @Test
-    public void returnEmptyListIfSearchIsNotFound(){
+    public void returnEmptyListIfSearchIsNotFound() throws DataProcessingException{
         when(mockClient.searchTweets(MOCK_QUERY, TOKEN)).thenReturn(new Response());
         ResponseEntity<List<TweetDetail>>  mockResponse = twitterService.searchContent(MOCK_QUERY, TOKEN);
         assertEquals(0, mockResponse.getBody().size());
     }
 
     @Test
-    public void returnErrorCodeWhenExceptionOccursFromClient(){
+    public void returnErrorCodeWhenExceptionOccursFromClient() throws DataProcessingException{
         Response mockResposeError = new Response();
         mockResposeError.setStatus("401");
         when(mockClient.searchTweets(MOCK_QUERY, TOKEN)).thenReturn(mockResposeError);
@@ -55,7 +54,7 @@ public class TwitterServiceImplTest {
 
 
     @Test
-    public void  returnEmptyDisplayNameIfAuthorIdIsNotFound(){
+    public void  returnEmptyDisplayNameIfAuthorIdIsNotFound() throws DataProcessingException{
         Response mockResponse = new Response();
         TweetData data = new TweetData();
         data.setAuthorId("123");
@@ -74,7 +73,7 @@ public class TwitterServiceImplTest {
     }
 
     @Test
-    public void  returnDisplayNameIfAuthorIdIsound(){
+    public void  returnDisplayNameIfAuthorIdIsound() throws DataProcessingException{
         Response mockResponse = new Response();
         TweetData data = getTweetData("123");
 
@@ -93,7 +92,7 @@ public class TwitterServiceImplTest {
     }
 
     @Test
-    public void  returnProfileImagefAuthorIdIsFoundAndHasImage(){
+    public void  returnProfileImagefAuthorIdIsFoundAndHasImage() throws DataProcessingException{
         Response mockResponse = new Response();
         TweetData data = getTweetData("123");
         Includes includes = new Includes();
@@ -111,7 +110,7 @@ public class TwitterServiceImplTest {
     }
 
     @Test
-    public void  returnNpProfileImagefAuthorIdIsNotFound(){
+    public void  returnNoProfileImagefAuthorIdIsNotFound() throws DataProcessingException{
         Response mockResponse = new Response();
         TweetData data = getTweetData("123");
         Includes includes = new Includes();

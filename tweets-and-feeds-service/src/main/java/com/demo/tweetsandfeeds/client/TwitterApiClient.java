@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.demo.tweetsandfeeds.client.constant.RequestConstants;
+import com.demo.tweetsandfeeds.client.exception.DataProcessingException;
 import com.demo.tweetsandfeeds.client.model.response.Response;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -37,40 +38,23 @@ public class TwitterApiClient  implements ITwitterApiV2{
     }
 
     @Override
-    public Response searchTweets(String query, String bearerToken) {
-        Response response = sendAsyncHttpRequest(query,bearerToken);
-        return response;
-    }
-
-    private Response sendAsyncHttpRequest(String query, String bearerToken) {
-        try {
-            HttpRequest request  = buildRequest("/search/recent?",bearerToken);
+    public Response searchTweets(String query, String bearerToken) throws DataProcessingException {
+        HttpRequest request  = buildRequest("/search/recent?",bearerToken);
             HttpResponse<String> response = httpClient.sendAsync(request, BodyHandlers.ofString()).join();        
             return processedResponse(response);
-
-        } catch (Exception e) {
-            return errorResponse("An exception has occured during the http request", e.getMessage());
-        }
     }
 
-    private Response errorResponse(String errorMessage, String exceptionMessage) {
-        Response exceptionResponse = new Response();
-        exceptionResponse.setErrorMessage(errorMessage);
-        exceptionResponse.setException(exceptionMessage);
-        return exceptionResponse;
-    }
-
-    private Response processedResponse(HttpResponse<String> response) {
+    private Response processedResponse(HttpResponse<String> response) throws DataProcessingException {
         try {
             return new ObjectMapper().readValue(response.body(), Response.class);
         } catch (JsonMappingException e) {
-            return errorResponse("Error during deserialize JSON from the response", e.getMessage());
+            throw new DataProcessingException("Error during deserialize JSON from the response", e);
         } catch (JsonProcessingException e) {
-            return errorResponse("Error during processing JSON content", e.getMessage());
+            throw new DataProcessingException("Error during processing JSON content" ,e);
         }
     }
 
-    private HttpRequest buildRequest(String path, String bearerToken) throws Exception {
+    private HttpRequest buildRequest(String path, String bearerToken) throws DataProcessingException {
         try {
             URIBuilder uriBuilder = new URIBuilder(RequestConstants.BASE_URL + path);
             uriBuilder.addParameters(getQueryParameters());
@@ -80,7 +64,7 @@ public class TwitterApiClient  implements ITwitterApiV2{
                 .header("Authorization", String.format("Bearer %s", bearerToken))
                 .build();
         } catch (URISyntaxException e) {
-            throw new Exception(e.getMessage());
+            throw new DataProcessingException("A string could not be parsed as a URI" ,e);
         }
 
     }
