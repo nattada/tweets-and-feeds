@@ -1,5 +1,8 @@
 package com.demo.tweetsandfeeds.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TweetDetail {
 
     private String id;

@@ -1,8 +1,8 @@
 package com.demo.tweetsandfeeds.service;
 
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 public interface ISocialMediaService<T> {
 
-    List<T> searchContent(String text, String authToken);
+    ResponseEntity<T> searchContent(String text, String authToken);
 }

@@ -2,33 +2,12 @@ package com.demo.tweetsandfeeds.client.model.response;
 
 import java.util.List;
 
-public class Tweet {
+public interface Tweet {
 
-    private List<TweetData> data;
-    private TweetMeta meta;
-    private Includes includes;
-
-    public List<TweetData> getData() {
-        return data;
-    }
-
-    public void setData(List<TweetData> data) {
-        this.data = data;
-    }
-
-    public TweetMeta getMeta() {
-        return meta;
-    }
-
-    public void setMeta(TweetMeta meta) {
-        this.meta = meta;
-    }
-
-    public Includes getIncludes() {
-        return includes;
-    }
-
-    public void setIncludes(Includes includes) {
-        this.includes = includes;
-    }
+    public List<TweetData> getData() ;
+    public void setData(List<TweetData> data);
+    public TweetMeta getMeta();
+    public void setMeta(TweetMeta meta);
+    public Includes getIncludes() ;
+    public void setIncludes(Includes includes);
 }

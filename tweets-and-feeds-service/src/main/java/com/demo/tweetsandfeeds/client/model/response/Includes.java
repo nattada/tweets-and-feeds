@@ -1,5 +1,6 @@
 package com.demo.tweetsandfeeds.client.model.response;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Includes {
@@ -8,7 +9,7 @@ public class Includes {
     private List<TweetData> tweets;
 
     public List<UserData> getUsers() {
-        return users;
+        return users == null ? Collections.emptyList() : users;
     }
     public void setUsers(List<UserData> users) {
         this.users = users;

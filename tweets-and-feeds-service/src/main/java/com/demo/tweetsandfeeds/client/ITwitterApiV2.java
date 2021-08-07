@@ -1,6 +1,6 @@
 package com.demo.tweetsandfeeds.client;
 
-import com.demo.tweetsandfeeds.client.model.response.Tweet;
+import com.demo.tweetsandfeeds.client.model.response.Response;
 
 public interface ITwitterApiV2 {
 
@@ -10,6 +10,6 @@ public interface ITwitterApiV2 {
   * @param query
   * @return
   */
-  Tweet searchTweets(String query,String token);
+  Response searchTweets(String query,String token);
   
 }

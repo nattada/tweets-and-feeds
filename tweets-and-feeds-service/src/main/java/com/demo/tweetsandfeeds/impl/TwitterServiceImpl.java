@@ -1,19 +1,22 @@
 package com.demo.tweetsandfeeds.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.demo.tweetsandfeeds.client.TwitterApiClient;
 import com.demo.tweetsandfeeds.client.model.response.Includes;
-import com.demo.tweetsandfeeds.client.model.response.Tweet;
+import com.demo.tweetsandfeeds.client.model.response.Response;
 import com.demo.tweetsandfeeds.client.model.response.UserData;
 import com.demo.tweetsandfeeds.dto.TweetDetail;
 import com.demo.tweetsandfeeds.service.ISocialMediaService;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TwitterServiceImpl implements ISocialMediaService<TweetDetail> {
+public class TwitterServiceImpl implements ISocialMediaService<List<TweetDetail>> {
 
     private TwitterApiClient twitterClient;
 
@@ -23,12 +26,15 @@ public class TwitterServiceImpl implements ISocialMediaService<TweetDetail> {
     }
 
     @Override
-    public List<TweetDetail> searchContent(String text, String token) {
-        Tweet tweetReponse = twitterClient.searchTweets(text, token);
-        List<TweetDetail> tweetList = new ArrayList<TweetDetail>();
+    public ResponseEntity<List<TweetDetail>>searchContent(String text, String token) {
+        Response tweetReponse = twitterClient.searchTweets(text, token);
 
-        if (tweetReponse == null || tweetReponse.getData() == null)
-            return tweetList;
+        if(tweetReponse.getStatus() != null){
+            return new ResponseEntity<List<TweetDetail>>(Collections.emptyList(),
+            HttpStatus.valueOf(Integer.parseInt(tweetReponse.getStatus())));
+        }
+
+        List<TweetDetail> tweetList = new ArrayList<TweetDetail>();
 
         tweetReponse.getData().forEach(tweet -> {
             TweetDetail detail = new TweetDetail();
@@ -39,7 +45,7 @@ public class TwitterServiceImpl implements ISocialMediaService<TweetDetail> {
             detail.setDisplayName(getUserNameFromTweetAuthor(tweetReponse.getIncludes(), tweet.getAuthorId()));
             tweetList.add(detail);
         });
-        return tweetList;
+        return new ResponseEntity<List<TweetDetail>>(tweetList,HttpStatus.OK);
     }
 
     private String getUserNameFromTweetAuthor(Includes userDetail, String authorId) {
@@ -52,9 +58,6 @@ public class TwitterServiceImpl implements ISocialMediaService<TweetDetail> {
         return  userData == null ? null: userData.getProfileImageUrl();
     }
     private UserData findUser(Includes userDetail, String authorId){
-        if (userDetail == null)
-         return null;
-        else
          return userDetail.getUsers().stream().filter(user -> user.getId().equals(authorId)).findFirst().orElse(null);
 
     }
