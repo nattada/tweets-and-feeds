@@ -1,13 +1,20 @@
 package com.demo.tweetsandfeeds.client;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
+import java.net.http.HttpResponse.BodyHandler;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.CompletableFuture;
 
 import com.demo.tweetsandfeeds.client.model.response.Response;
@@ -30,30 +37,34 @@ public class TwitterApiClientTest {
     @Mock
     HttpResponse<String> mockResponse;
     @Mock
-    CompletableFuture<HttpResponse<String>> asyncMock;
+    CompletableFuture<HttpResponse<HttpClient>> asyncMock;
+
 
 
     @Test
     public void returnErrorWhenUnauthorized() throws IOException, InterruptedException{
         when(mockResponse.body()).thenReturn("{\"title\":\"Unauthorized\",\"type\":\"about:blank\",\"status\":401,\"detail\":\"Unauthorized\"}");
-        when(mockClient.sendAsync(mockRequest, BodyHandlers.ofString())).thenReturn(asyncMock);
-        when(asyncMock.join()).thenReturn(mockResponse);
+        doReturn(asyncMock).when(mockClient).sendAsync(any(HttpRequest.class), any(BodyHandler.class));
+        doReturn(mockResponse).when(asyncMock).join();
 
         Response tweetResponse =  twitterApiClient.searchTweets("test", "bearerToken");
         assertEquals("401", tweetResponse.getStatus());
         
     }
 
-    // @Test
-    // public void returnTweetDataWhenRequestIsSuccessfulWithOkStatus() throws IOException, InterruptedException{
-    //     when(mockResponse.body()).thenReturn("{\"data\":\"Unauthorized\",\"type\":\"about:blank\",\"status\":401,\"detail\":\"Unauthorized\"}");
-    //     when(mockResponse.statusCode()).thenReturn(HttpStatus.OK);
-    //     when(mockClient.sendAsync(mockRequest, BodyHandlers.ofString())).thenReturn(asyncMock);
-    //     when(asyncMock.join()).thenReturn(mockResponse);
-
-    //     Response tweetResponse = twitterApiClient.searchTweets("test", "bearerToken");
-    //     assertEquals(null, tweetResponse.getStatus());
+    @Test
+    public void returnTweetDataWhenRequestIsSuccessfulWithOkStatus() throws IOException, InterruptedException{
+        Path file = Paths.get("src/test/resources/MockResponseData.json");
+        String mockData = Files.readString(file);
+        when(mockResponse.body()).thenReturn(mockData);
+        doReturn(asyncMock).when(mockClient).sendAsync(any(HttpRequest.class), any(BodyHandler.class));
+        doReturn(mockResponse).when(asyncMock).join();
+        Response tweetResponse =  twitterApiClient.searchTweets("test", "bearerToken");
+        assertNull(tweetResponse.getStatus());
+        assertNotNull(tweetResponse.getData());
+        assertNotNull(tweetResponse.getIncludes());
+        assertNotNull(tweetResponse.getMeta());
         
-    // }
+    }
     
 }
