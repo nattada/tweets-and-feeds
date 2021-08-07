@@ -1,12 +1,18 @@
 package com.demo.tweetsandfeeds.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.demo.tweetsandfeeds.client.TwitterApiClient;
+import com.demo.tweetsandfeeds.client.model.response.Includes;
 import com.demo.tweetsandfeeds.client.model.response.Response;
+import com.demo.tweetsandfeeds.client.model.response.TweetData;
+import com.demo.tweetsandfeeds.client.model.response.UserData;
 import com.demo.tweetsandfeeds.dto.TweetDetail;
 
 import org.junit.jupiter.api.Test;
@@ -48,9 +54,46 @@ public class TwitterServiceImplTest {
 
 
     @Test
-    public void  returnEmptyListWhenExceptionOccureOnClient(){
-        when(mockClient.searchTweets(MOCK_QUERY, TOKEN)).thenThrow(Exception.class);
-        ResponseEntity<List<TweetDetail>> mockResponse = twitterService.searchContent(MOCK_QUERY, TOKEN);
-        assertEquals(0, mockResponse.getBody().size());
+    /*
+        private String displayName;
+    private String image;
+    private String content;
+    private String postTime;*/
+
+    public void  returnEmptyDisplayNameIfAuthorIdIsNotFound(){
+        Response mockResponse = new Response();
+        TweetData data = new TweetData();
+        data.setAuthorId("123");
+        Includes includes = new Includes();
+        UserData users = new UserData();
+        users.setId("456");
+        users.setName("Test Name");
+        includes.setUsers(Arrays.asList(users));
+        mockResponse.setData(Arrays.asList(data));
+        mockResponse.setIncludes(includes);
+
+        when(mockClient.searchTweets(MOCK_QUERY, TOKEN)).thenReturn(mockResponse);
+        ResponseEntity<List<TweetDetail>> tweetDetails = twitterService.searchContent(MOCK_QUERY, TOKEN);
+        assertEquals(1, tweetDetails.getBody().size());
+        assertNull(tweetDetails.getBody().get(0).getDisplayName());
+    }
+
+    @Test
+    public void  returnDisplayNameIfAuthorIdIsound(){
+        Response mockResponse = new Response();
+        TweetData data = new TweetData();
+        data.setAuthorId("123");
+        Includes includes = new Includes();
+        UserData users = new UserData();
+        users.setId("123");
+        users.setName("Test Name");
+        includes.setUsers(Arrays.asList(users));
+        mockResponse.setData(Arrays.asList(data));
+        mockResponse.setIncludes(includes);
+
+        when(mockClient.searchTweets(MOCK_QUERY, TOKEN)).thenReturn(mockResponse);
+        ResponseEntity<List<TweetDetail>> tweetDetails = twitterService.searchContent(MOCK_QUERY, TOKEN);
+        assertEquals(1, tweetDetails.getBody().size());
+        assertEquals("Test Name", tweetDetails.getBody().get(0).getDisplayName());
     }
 }
