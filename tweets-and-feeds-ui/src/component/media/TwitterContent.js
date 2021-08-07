@@ -12,7 +12,6 @@ function TweeterContent() {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization':''
             },
           }
       )
@@ -42,7 +41,7 @@ function TweeterContent() {
     }
   
   return (
-    <div className={classes.card}>
+    <div>
       <TweetList allTweets={loadedTweets} />
     </div>
   );

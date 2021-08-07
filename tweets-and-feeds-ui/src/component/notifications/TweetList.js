@@ -9,6 +9,7 @@ function TweetList(props){
           image={tweet.image}
           content={tweet.content}
           displayName={tweet.displayName}
+          postedTime={tweet.postedTime}
         />
       ))}
         </div>

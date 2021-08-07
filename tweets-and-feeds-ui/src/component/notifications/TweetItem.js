@@ -8,6 +8,7 @@ function TweetItem(props) {
       </div>
       <div>{props.displayName}
       </div>
+      <div>{props.postedTime}</div>
       <div>{props.content}
       </div>
     </Card>
