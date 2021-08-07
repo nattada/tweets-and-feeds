@@ -15,6 +15,7 @@ import com.demo.tweetsandfeeds.client.model.response.TweetData;
 import com.demo.tweetsandfeeds.client.model.response.UserData;
 import com.demo.tweetsandfeeds.dto.TweetDetail;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -54,12 +55,6 @@ public class TwitterServiceImplTest {
 
 
     @Test
-    /*
-        private String displayName;
-    private String image;
-    private String content;
-    private String postTime;*/
-
     public void  returnEmptyDisplayNameIfAuthorIdIsNotFound(){
         Response mockResponse = new Response();
         TweetData data = new TweetData();
@@ -81,8 +76,8 @@ public class TwitterServiceImplTest {
     @Test
     public void  returnDisplayNameIfAuthorIdIsound(){
         Response mockResponse = new Response();
-        TweetData data = new TweetData();
-        data.setAuthorId("123");
+        TweetData data = getTweetData("123");
+
         Includes includes = new Includes();
         UserData users = new UserData();
         users.setId("123");
@@ -95,5 +90,47 @@ public class TwitterServiceImplTest {
         ResponseEntity<List<TweetDetail>> tweetDetails = twitterService.searchContent(MOCK_QUERY, TOKEN);
         assertEquals(1, tweetDetails.getBody().size());
         assertEquals("Test Name", tweetDetails.getBody().get(0).getDisplayName());
+    }
+
+    @Test
+    public void  returnProfileImagefAuthorIdIsFoundAndHasImage(){
+        Response mockResponse = new Response();
+        TweetData data = getTweetData("123");
+        Includes includes = new Includes();
+        UserData users = new UserData();
+        users.setId("123");
+        users.setProfileImageUrl("http://imageurl");
+        includes.setUsers(Arrays.asList(users));
+        mockResponse.setData(Arrays.asList(data));
+        mockResponse.setIncludes(includes);
+
+        when(mockClient.searchTweets(MOCK_QUERY, TOKEN)).thenReturn(mockResponse);
+        ResponseEntity<List<TweetDetail>> tweetDetails = twitterService.searchContent(MOCK_QUERY, TOKEN);
+        assertEquals(1, tweetDetails.getBody().size());
+        assertEquals("http://imageurl", tweetDetails.getBody().get(0).getImage());
+    }
+
+    @Test
+    public void  returnNpProfileImagefAuthorIdIsNotFound(){
+        Response mockResponse = new Response();
+        TweetData data = getTweetData("123");
+        Includes includes = new Includes();
+        UserData users = new UserData();
+        users.setId("456");
+        users.setProfileImageUrl("http://imageurl");
+        includes.setUsers(Arrays.asList(users));
+        mockResponse.setData(Arrays.asList(data));
+        mockResponse.setIncludes(includes);
+
+        when(mockClient.searchTweets(MOCK_QUERY, TOKEN)).thenReturn(mockResponse);
+        ResponseEntity<List<TweetDetail>> tweetDetails = twitterService.searchContent(MOCK_QUERY, TOKEN);
+        assertEquals(1, tweetDetails.getBody().size());
+        assertNull(tweetDetails.getBody().get(0).getImage());
+    }
+
+    private TweetData getTweetData(String authorId){
+        TweetData data = new TweetData();
+        data.setAuthorId(authorId);
+        return data;
     }
 }
