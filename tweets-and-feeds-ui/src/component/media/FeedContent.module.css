@@ -4,6 +4,8 @@
     width: 70%;
     height: 300px;
     max-width: 40rem;
+    font-family: Arial, Helvetica, sans-serif;
+
   }
 
 .card__feed{
@@ -11,9 +13,40 @@
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     padding: 15px
-  }
+}
 
 textarea {
     width: 100%;
     box-sizing: border-box;
+    resize: none;
 }
+h1 {
+    margin: 30px;
+    color:white;
+    padding: 15px
+
+}
+
+.speech__bubble {
+	position: relative;
+	background: rgba(229,60,46);
+	border-radius: .4em;
+    
+}
+
+.speech__bubble:after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-top-color: rgba(229,60,46);
+	border-bottom: 0;
+	border-left: 0;
+	margin-left: -10px;
+	margin-bottom: -20px;
+}
+
+

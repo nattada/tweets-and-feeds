@@ -49,8 +49,9 @@ function FeedContent() {
   }
 
   return (
-    <div className={feedContentClasses.feed,feedContentClasses.card__feed}>
-      <div >
+    <div className={feedContentClasses.feed}>
+      <div className={feedContentClasses.speech__bubble}><h1>What's happening?</h1></div>
+    <div className={feedContentClasses.card__feed}>
       <Card>
         <div className={classes.container}>
           <ul className={classes.container__items}>
@@ -58,10 +59,8 @@ function FeedContent() {
           </ul>
         </div>
       </Card>
-      </div>
-      <div>
         <NewFeed />
-      </div>
+    </div>
     </div>
   );
 }
