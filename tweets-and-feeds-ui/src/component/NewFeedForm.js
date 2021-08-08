@@ -24,7 +24,7 @@ function NewFeedForm(props) {
             id="feedsContent"
             required
             rows="4"
-            cols="50"
+            maxlength="200"
             ref={feedInputRef}
           >
             Broadcast your thoughts here!

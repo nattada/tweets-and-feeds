@@ -1,0 +1,19 @@
+
+.feed {
+    margin: 5rem auto;
+    width: 70%;
+    height: 300px;
+    max-width: 40rem;
+  }
+
+.card__feed{
+    background-color: #091f40;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 15px
+  }
+
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+}

@@ -1,0 +1,88 @@
+.container {
+    /* Used to position the left vertical line */
+    position: relative;
+}
+
+.container__line {
+    /* Border */
+    border-right: 2px solid rgba(229,60,46,0.8);
+
+    /* Positioned at the left */
+    left: 16px;
+    position: absolute;
+    top: 0px;
+
+    /* Take full height */
+    height: 100%;
+}
+
+.container__items {
+    /* Reset styles */
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.container__item {
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(229,60,46,0.4);
+    border-bottom-width: thin;
+}
+
+.container__top {
+    /* Center the content horizontally */
+    align-items: center;
+    display: flex;
+}
+
+.container__circle {
+    /* Rounded border */
+    background-color: rgba(229,60,46);
+    border-radius: 9999px;
+
+    /* Size */
+    height: 32px;
+    width: 32px;
+}
+
+.container__title {
+    /* Take available width */
+    flex: 1;
+    font-size: 16px;
+    margin-left: 5px
+}
+
+.container__desc {
+    /* Make it align with the title */
+    margin-left: 55px;
+    font-size: 14px;
+    padding-bottom: 5px;
+}
+
+
+.avatar {
+    /* Center the content */
+    display: inline-block;
+    vertical-align: middle;
+
+    /* Used to position the content */
+    position: relative;
+
+    /* Colors */
+    background-color: rgba(229,60,46,0.8);
+    color: #FFF;
+
+    /* Rounded border */
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.avatar__letters {
+    /* Center the content */
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #FFF;
+}

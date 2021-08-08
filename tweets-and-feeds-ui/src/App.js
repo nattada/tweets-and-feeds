@@ -4,9 +4,11 @@ import classes from "./App.module.css";
 
 function App() {
   return (
-    <div>
+    <div className={classes.container}>
+      <div className={classes.container__half}>
         <TweeterContent />
-      <div className={classes.feed}>
+      </div>
+      <div className={classes.container__half}>
         <FeedContent />
       </div>
     </div>

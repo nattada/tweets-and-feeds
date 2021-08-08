@@ -1,13 +1,7 @@
-.twitter {
-  margin: 5rem auto;
-  width: 70%;
-  height: 500px;
-  overflow: scroll;
-  max-width: 40rem;
+.container {
+  display: flex;
 }
 
-.feed {
-  margin: 3rem auto;
-  width: 70%;
-  max-width: 40rem;
+.container__half {
+  flex: 1;
 }

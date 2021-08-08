@@ -1,8 +1,12 @@
 import FeedItem from "./FeedItem"
+import classes from "../ui/Timeline.module.css";
+import Card from '../ui/Card';
+
+
 
 function FeedList(props) {
   return (
-    <div>
+    <>
       {props.allFeeds.map((feed) => (
         <FeedItem
           key={feed.id}
@@ -11,7 +15,7 @@ function FeedList(props) {
           postedOn={feed.postedOn}
         />
       ))}
-    </div>
+    </>
   );
 }
 export default FeedList;
