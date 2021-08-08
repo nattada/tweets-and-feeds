@@ -5,9 +5,7 @@ import classes from "./App.module.css";
 function App() {
   return (
     <div>
-      <div className={classes.twitter}>
         <TweeterContent />
-      </div>
       <div className={classes.feed}>
         <FeedContent />
       </div>

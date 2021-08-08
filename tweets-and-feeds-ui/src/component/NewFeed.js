@@ -1,18 +1,20 @@
-import { useRef } from 'react';
+import NewFeedForm  from "./NewFeedForm";
 
 function NewFeed() {
+
+  function addFeedHandler(feedData) {
+    fetch("/feed", {
+      method: "POST",
+      body: JSON.stringify(feedData),
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+  }
+
   return (
     <div>
-      <form>
-        <div>
-          <textarea rows="4" cols="50">
-            Broadcast your thoughts here!
-          </textarea>
-        </div>
-        <div>
-          <input type="submit" value="Add" />
-        </div>
-      </form>
+      <NewFeedForm onAddFeed={addFeedHandler} />
     </div>
   );
 }

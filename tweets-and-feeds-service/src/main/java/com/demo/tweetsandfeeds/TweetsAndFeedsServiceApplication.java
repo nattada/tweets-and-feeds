@@ -2,6 +2,10 @@ package com.demo.tweetsandfeeds;
 
 import java.net.http.HttpClient;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +23,13 @@ public class TweetsAndFeedsServiceApplication {
 	public HttpClient httpClient() {
 		HttpClient httpClient = HttpClient.newBuilder().build();
 		return httpClient;
+	}
+
+	@Bean ObjectMapper objectMapper(){
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.findAndRegisterModules();
+		mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+		return mapper;
 	}
 
 }

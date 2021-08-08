@@ -28,8 +28,11 @@ function FeedContent() {
         }
         setIsLoading(false);
         setLoadedFeeds(Feeds);
-      });
+      }).catch(function() {
+        console.log("error");
+    });
   }, []);
+
 
   if (isLoading) {
     return (

@@ -9,7 +9,6 @@ cd /tweets-and-feeds-service
 2. Run docker compose (Please make sure you have docker installed)
 cd to the root directory of the project
 
-docker compose build
-docker compose up
+docker compose up --build
 
 Access the application on locahost:3000

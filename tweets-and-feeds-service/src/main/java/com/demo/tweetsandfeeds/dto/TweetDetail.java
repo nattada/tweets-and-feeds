@@ -1,5 +1,6 @@
 package com.demo.tweetsandfeeds.dto;
 
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -9,7 +10,7 @@ public class TweetDetail {
     private String displayName;
     private String image;
     private String content;
-    private String postTime;
+    private String postedOn;
 
 
 
@@ -19,11 +20,11 @@ public class TweetDetail {
     public void setId(String id) {
         this.id = id;
     }
-    public String getPostTime() {
-        return postTime;
+    public String getPostedOn() {
+        return postedOn;
     }
-    public void setPostTime(String postTime) {
-        this.postTime = postTime;
+    public void setPostedOn(String postedOn) {
+        this.postedOn = postedOn;
     }
     public String getDisplayName() {
         return displayName;

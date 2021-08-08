@@ -7,8 +7,8 @@ function FeedList(props) {
         <FeedItem
           key={feed.id}
           content={feed.content}
-          posterName={feed.posterName}
-          postedTime={feed.postedTime}
+          postedBy={feed.postedBy}
+          postedOn={feed.postedOn}
         />
       ))}
     </div>
