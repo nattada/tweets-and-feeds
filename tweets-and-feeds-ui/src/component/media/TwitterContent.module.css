@@ -5,3 +5,25 @@
     overflow: scroll;
     max-width: 40rem;
   }
+
+  .speech__bubble {
+    position: relative;
+    background: #b3d4fc;
+    border-radius: .4em;
+      
+  }
+  
+  .speech__bubble:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-top-color: #b3d4fc;
+    border-bottom: 0;
+    border-left: 0;
+    margin-left: -10px;
+    margin-bottom: -20px;
+  }

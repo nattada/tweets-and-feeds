@@ -50,7 +50,7 @@ function FeedContent() {
 
   return (
     <div className={feedContentClasses.feed}>
-      <div className={feedContentClasses.speech__bubble}><h1>What's happening?</h1></div>
+      <div className={feedContentClasses.speech__bubble}><h1>Internal Feed</h1></div>
     <div className={feedContentClasses.card__feed}>
       <Card>
         <div className={classes.container}>

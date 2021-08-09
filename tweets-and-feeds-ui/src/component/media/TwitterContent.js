@@ -54,9 +54,15 @@ function TwitterContent() {
   }
 
   return (
-      !hasError && (<div className= {classes.twitter}>
+      !hasError && (
+        <div className= {classes.twitter}>
+      <div className={classes.speech__bubble}><h1>Twitter: Who's talking abount Fanatics?</h1></div>
+     
+      <div >
         <TweetList allTweets={loadedTweets} />
-      </div>)
+      </div>
+      </div>
+      )
   );
 }
 
