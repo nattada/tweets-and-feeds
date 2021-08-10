@@ -39,10 +39,21 @@ public class TwitterApiClient  implements ITwitterApiV2{
 
     @Override
     public Response searchTweets(String query, String bearerToken) throws DataProcessingException {
-        HttpRequest request  = buildRequest("/search/recent?",bearerToken);
-            HttpResponse<String> response = httpClient.sendAsync(request, BodyHandlers.ofString()).join();        
-            return processedResponse(response);
+        List<NameValuePair> additionalParameters = getQueryParameters(query);
+        HttpRequest request  = buildRequest("/search/recent?",additionalParameters,bearerToken);
+        HttpResponse<String> response = httpClient.sendAsync(request, BodyHandlers.ofString()).join();        
+        return processedResponse(response);
     }
+
+    @Override
+    public Response searchTweets(String query, String bearerToken, String paginationToken) throws DataProcessingException {
+        List<NameValuePair> additionalParameters = getQueryParameters(query);
+        additionalParameters.add(new BasicNameValuePair(RequestConstants.NEXT_TOKEN, paginationToken));
+        HttpRequest request  = buildRequest("/search/recent?",additionalParameters,bearerToken);
+        HttpResponse<String> response = httpClient.sendAsync(request, BodyHandlers.ofString()).join();        
+        return processedResponse(response);
+    }
+
 
     private Response processedResponse(HttpResponse<String> response) throws DataProcessingException {
         try {
@@ -54,10 +65,10 @@ public class TwitterApiClient  implements ITwitterApiV2{
         }
     }
 
-    private HttpRequest buildRequest(String path, String bearerToken) throws DataProcessingException {
+    private HttpRequest buildRequest(String path, List<NameValuePair> additionalParameters ,String bearerToken) throws DataProcessingException {
         try {
             URIBuilder uriBuilder = new URIBuilder(RequestConstants.BASE_URL + path);
-            uriBuilder.addParameters(getQueryParameters());
+            uriBuilder.addParameters(additionalParameters);
             return HttpRequest.newBuilder()
                 .uri(uriBuilder.build())
                 .header("Content-Type", "application/json")
@@ -69,18 +80,15 @@ public class TwitterApiClient  implements ITwitterApiV2{
 
     }
 
-    private List<NameValuePair> getQueryParameters() {
+    private List<NameValuePair> getQueryParameters(String query) {
         ArrayList<NameValuePair> queryParameters;
         queryParameters = new ArrayList<>();
-        queryParameters.add(new BasicNameValuePair(RequestConstants.QUERY_KEY, "@Fanatics is:verified"));
+        queryParameters.add(new BasicNameValuePair(RequestConstants.QUERY_KEY, query));
         queryParameters.add(new BasicNameValuePair(RequestConstants.TWEET_FIELD_KEY, "created_at"));
         queryParameters.add(new BasicNameValuePair(RequestConstants.EXPANSION_KEY, "author_id"));
         queryParameters.add(new BasicNameValuePair(RequestConstants.USER_FIELD_KEY, "description,profile_image_url,public_metrics,verified"));
+        queryParameters.add(new BasicNameValuePair(RequestConstants.MAX_RESULT, "50"));
         return queryParameters;
     }
 }
         
-    
-    
-    
-

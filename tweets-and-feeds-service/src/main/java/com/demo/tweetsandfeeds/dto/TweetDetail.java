@@ -11,9 +11,16 @@ public class TweetDetail {
     private String image;
     private String content;
     private String postedOn;
+    private Boolean fromVerifiedUser;
 
 
 
+    public Boolean getFromVerifiedUser() {
+        return fromVerifiedUser;
+    }
+    public void setFromVerifiedUser(Boolean fromVerifiedUser) {
+        this.fromVerifiedUser = fromVerifiedUser;
+    }
     public String getId() {
         return id;
     }

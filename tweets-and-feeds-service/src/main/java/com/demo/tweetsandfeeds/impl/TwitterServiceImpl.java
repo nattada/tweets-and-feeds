@@ -29,38 +29,51 @@ public class TwitterServiceImpl implements ISocialMediaService<List<TweetDetail>
     @Override
     public ResponseEntity<List<TweetDetail>> searchContent(String text, String token) {
         try {
-            Response tweetReponse = twitterClient.searchTweets(text, token);
-
-            if (tweetReponse.getStatus() != null) {
-                return new ResponseEntity<List<TweetDetail>>(Collections.emptyList(),
-                        HttpStatus.valueOf(Integer.parseInt(tweetReponse.getStatus())));
-            }
-
+            String nextToken = null;
             List<TweetDetail> tweetList = new ArrayList<TweetDetail>();
-            tweetReponse.getData().forEach(tweet -> {
-                TweetDetail detail = new TweetDetail();
-                detail.setContent(tweet.getText());
-                detail.setId(tweet.getId());
-                detail.setPostedOn(tweet.getCreatedAt());
-                detail.setImage(getUserImageFromTweetAuthor(tweetReponse.getIncludes(), tweet.getAuthorId()));
-                detail.setDisplayName(getUserNameFromTweetAuthor(tweetReponse.getIncludes(), tweet.getAuthorId()));
-                tweetList.add(detail);
-            });
+
+            do {
+                Response tweetReponse;
+                if (nextToken == null)// first call
+                    tweetReponse = twitterClient.searchTweets(text, token);
+                else {
+                    tweetReponse = twitterClient.searchTweets(text, token, nextToken);
+
+                }
+                if (tweetReponse.getStatus() != null) {
+                    return new ResponseEntity<List<TweetDetail>>(Collections.emptyList(),
+                            HttpStatus.valueOf(Integer.parseInt(tweetReponse.getStatus())));
+                }
+                nextToken = tweetReponse.getMeta().getNextToken();
+                tweetReponse.getData().forEach(tweet -> {
+                    TweetDetail detail = new TweetDetail();
+                    UserData userData = findUser(tweetReponse.getIncludes(), tweet.getAuthorId());
+                    detail.setContent(tweet.getText());
+                    detail.setId(tweet.getId());
+                    detail.setPostedOn(tweet.getCreatedAt());
+                    detail.setImage(getUserImageFromTweetAuthor(userData));
+                    detail.setDisplayName(getUserNameFromTweetAuthor(userData));
+                    detail.setFromVerifiedUser(isTweetAuthorVerifiedUser(userData));
+                    tweetList.add(detail);
+                });
+            } while (nextToken != null);
             return new ResponseEntity<List<TweetDetail>>(tweetList, HttpStatus.OK);
         } catch (DataProcessingException e) {
             return new ResponseEntity<List<TweetDetail>>(Collections.emptyList(), HttpStatus.valueOf(403));
         }
-        
+
     }
 
-    private String getUserNameFromTweetAuthor(Includes userDetail, String authorId) {
-        UserData userData = findUser(userDetail, authorId);
+    private String getUserNameFromTweetAuthor(UserData userData) {
         return userData == null ? null : userData.getName();
     }
 
-    private String getUserImageFromTweetAuthor(Includes userDetail, String authorId) {
-        UserData userData = findUser(userDetail, authorId);
+    private String getUserImageFromTweetAuthor(UserData userData) {
         return userData == null ? null : userData.getProfileImageUrl();
+    }
+
+    private Boolean isTweetAuthorVerifiedUser(UserData userData) {
+        return userData == null ? null : userData.isVerified();
     }
 
     private UserData findUser(Includes userDetail, String authorId) {
