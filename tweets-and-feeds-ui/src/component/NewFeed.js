@@ -3,7 +3,7 @@ import NewFeedForm  from "./NewFeedForm";
 function NewFeed() {
 
   function addFeedHandler(feedData) {
-    fetch("/feed", {
+    fetch("/api/feed", {
       method: "POST",
       body: JSON.stringify(feedData),
       headers: {
