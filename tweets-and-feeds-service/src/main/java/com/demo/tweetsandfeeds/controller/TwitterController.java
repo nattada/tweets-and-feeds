@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/twitter")
+@RequestMapping("/api/twitter")
 public class TwitterController {
 
     private TwitterServiceImpl twitterImpl;

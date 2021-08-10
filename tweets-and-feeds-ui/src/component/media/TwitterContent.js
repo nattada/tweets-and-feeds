@@ -10,7 +10,7 @@ function TwitterContent() {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch("/twitter/seachTweets?text=@Fanatics is:verified", {
+    fetch("/api/twitter/seachTweets?text=@Fanatics is:verified", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

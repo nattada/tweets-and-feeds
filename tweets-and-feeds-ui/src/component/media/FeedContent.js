@@ -13,7 +13,7 @@ function FeedContent() {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch("/feed", {
+    fetch("/api/feed", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
